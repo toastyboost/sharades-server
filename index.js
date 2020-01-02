@@ -1,16 +1,31 @@
 const express = require("express");
-const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const http = require("http");
+const https = require("https");
+const fs = require("fs");
 
-const { getUserInfo } = require("./lib/get-user-info");
+const expressApp = express();
+const server = http.createServer(expressApp);
+
+const secureServer = https.createServer(
+  {
+    key: fs.readFileSync("./key.pem"),
+    cert: fs.readFileSync("./cert.pem"),
+    passphrase: "ilikecats"
+  },
+  expressApp
+);
+
+const io = require("socket.io")(server);
+const ios = require("socket.io")(secureServer);
+
+expressApp.use(express.static("public"));
 
 const users = [];
 const chatHistory = [];
 
-io.on("connection", socket => {
+ios.on("connection", socket => {
   const userID = socket.id;
-  console.log("object", socket);
+  // console.log("object", socket);
   socket.on("REGISTER_USER", userCard => {
     const userInfo = {
       id: userID,
@@ -18,29 +33,32 @@ io.on("connection", socket => {
     };
     console.log("users", users);
     users.push(userInfo);
-    io.emit("USERS_ONLINE", users);
+    ios.emit("USERS_ONLINE", users);
   });
 
   socket.on("USER_MESSAGE", msg => {
-    io.emit("NEW_CHAT_MESSAGE", msg);
+    ios.emit("NEW_CHAT_MESSAGE", msg);
     chatHistory.push(msg);
   });
 
   socket.on("USER_DRAWNING", coordinates => {
     console.log("coordinates ", coordinates);
-    io.emit("USER_DRAWNING", coordinates);
+    ios.emit("USER_DRAWNING", coordinates);
   });
 
   socket.on("USER_DISCONNECTED", () => {
     if (usersDatabase.users[userID]) {
       delete users[userID];
 
-      io.emit("USERS_ONLINE", users);
+      ios.emit("USERS_ONLINE", users);
     }
   });
 });
 
-const server = http.listen(8000, () => {
-  console.log("App is working");
-  console.log("Port:", server.address().port);
+server.listen(8000, () => {
+  console.log("server started at 80");
+});
+
+secureServer.listen(8001, () => {
+  console.log("secure server started at 443");
 });
