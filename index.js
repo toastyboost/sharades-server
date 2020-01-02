@@ -23,7 +23,7 @@ expressApp.use(express.static("public"));
 const users = [];
 const chatHistory = [];
 
-ios.on("connection", socket => {
+io.on("connection", socket => {
   const userID = socket.id;
 
   socket.on("REGISTER_USER", userCard => {
@@ -34,23 +34,23 @@ ios.on("connection", socket => {
 
     users.push(userInfo);
     console.log("users", users);
-    ios.emit("USERS_ONLINE", users);
+    io.emit("USERS_ONLINE", users);
   });
 
   socket.on("USER_MESSAGE", msg => {
-    ios.emit("NEW_CHAT_MESSAGE", msg);
+    io.emit("NEW_CHAT_MESSAGE", msg);
     chatHistory.push(msg);
   });
 
   socket.on("USER_DRAWNING", coordinates => {
-    ios.emit("USER_DRAWNING", coordinates);
+    io.emit("USER_DRAWNING", coordinates);
   });
 
   socket.on("USER_DISCONNECTED", () => {
     if (usersDatabase.users[userID]) {
       delete users[userID];
 
-      ios.emit("USERS_ONLINE", users);
+      io.emit("USERS_ONLINE", users);
     }
   });
 });
@@ -59,9 +59,9 @@ const PORT = process.env.PORT || 8000;
 const PORTS = process.env.PORTS || 8001;
 
 server.listen(PORT, () => {
-  console.log("server started at 8000");
+  console.log(`server started at ${PORT}`);
 });
 
 secureServer.listen(PORTS, () => {
-  console.log("secure server started at 8001");
+  console.log(`secure server started at ${PORTS}`);
 });
