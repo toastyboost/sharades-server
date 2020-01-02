@@ -16,7 +16,7 @@
     "url": "https://github.com/toastyboost/sharades-server/issues"
   },
   "engines": {
-    "node": "12.x"
+    "node": "13.1.x"
   },
   "homepage": "https://github.com/toastyboost/sharades-server#readme",
   "dependencies": {

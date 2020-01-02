@@ -6,14 +6,14 @@ const https = require("https");
 const expressApp = express();
 const server = http.createServer(expressApp);
 
-const secureServer = https.createServer(
-  {
-    key: fs.readFileSync("./key.pem"),
-    cert: fs.readFileSync("./cert.pem"),
-    passphrase: "ilikecats"
-  },
-  expressApp
-);
+// const secureServer = https.createServer(
+//   {
+//     key: fs.readFileSync("./key.pem"),
+//     cert: fs.readFileSync("./cert.pem"),
+//     passphrase: "ilikecats"
+//   },
+//   expressApp
+// );
 
 const io = require("socket.io")(server);
 // const ios = require("socket.io")(secureServer);
