@@ -56,11 +56,12 @@ ios.on("connection", socket => {
 });
 
 const PORT = process.env.PORT || 8000;
+const PORTS = process.env.PORTS || 8001;
 
 server.listen(PORT, () => {
   console.log("server started at 8000");
 });
 
-secureServer.listen(PORT + 1, () => {
+secureServer.listen(PORTS, () => {
   console.log("secure server started at 8001");
 });
