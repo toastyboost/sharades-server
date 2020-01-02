@@ -25,14 +25,15 @@ const chatHistory = [];
 
 ios.on("connection", socket => {
   const userID = socket.id;
-  // console.log("object", socket);
+
   socket.on("REGISTER_USER", userCard => {
     const userInfo = {
       id: userID,
       name: userCard.name
     };
-    console.log("users", users);
+
     users.push(userInfo);
+    console.log("users", users);
     ios.emit("USERS_ONLINE", users);
   });
 
@@ -42,7 +43,6 @@ ios.on("connection", socket => {
   });
 
   socket.on("USER_DRAWNING", coordinates => {
-    console.log("coordinates ", coordinates);
     ios.emit("USER_DRAWNING", coordinates);
   });
 
@@ -55,10 +55,12 @@ ios.on("connection", socket => {
   });
 });
 
-server.listen(8000, () => {
-  console.log("server started at 80");
+const PORT = process.env.PORT || 8000;
+
+server.listen(PORT, () => {
+  console.log("server started at 8000");
 });
 
-secureServer.listen(8001, () => {
-  console.log("secure server started at 443");
+secureServer.listen(PORT + 1, () => {
+  console.log("secure server started at 8001");
 });
