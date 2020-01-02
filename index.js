@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const https = require("https");
-const fs = require("fs");
+// const fs = require("fs");
 
 const expressApp = express();
 const server = http.createServer(expressApp);
@@ -16,7 +16,7 @@ const secureServer = https.createServer(
 );
 
 const io = require("socket.io")(server);
-const ios = require("socket.io")(secureServer);
+// const ios = require("socket.io")(secureServer);
 
 expressApp.use(express.static("public"));
 
@@ -56,12 +56,12 @@ io.on("connection", socket => {
 });
 
 const PORT = process.env.PORT || 8000;
-const PORTS = process.env.PORTS || 8001;
+// const PORTS = process.env.PORTS || 8001;
 
 server.listen(PORT, () => {
   console.log(`server started at ${PORT}`);
 });
 
-secureServer.listen(PORTS, () => {
-  console.log(`secure server started at ${PORTS}`);
-});
+// secureServer.listen(PORTS, () => {
+//   console.log(`secure server started at ${PORTS}`);
+// });
