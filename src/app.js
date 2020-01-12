@@ -1,10 +1,10 @@
 const express = require("express");
-const http = require("https");
+const http = require("http");
 
 const app = express();
 const server = http.createServer(app);
 
-const PORT = process.env.PORT ? process.env.PORT : 8000;
+var port = process.env.PORT || 8000;
 
 const io = require("socket.io")(server);
 
@@ -37,6 +37,6 @@ io.on("connection", socket => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`APP started at ${PORT}`);
+server.listen(port, () => {
+  console.log(`APP started at ${port}`);
 });
