@@ -1,12 +1,12 @@
 const express = require("express");
-const http = require("http");
 
 const app = express();
+const http = require("http");
 const server = http.createServer(app);
 
-var port = process.env.PORT || 8000;
+const io = require("socket.io").listen(server);
 
-const io = require("socket.io")(server);
+const port = process.env.PORT || 8080;
 
 const { addUser, deleteUser } = require("./model/users");
 const { addMessage } = require("./model/chat");
