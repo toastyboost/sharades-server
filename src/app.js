@@ -4,7 +4,7 @@ const http = require("https");
 const app = express();
 const server = http.createServer(app);
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 require("./socket")(server);
 

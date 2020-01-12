@@ -6,6 +6,7 @@ module.exports = server => {
 
   io.on("connection", socket => {
     const socketID = socket.id;
+    console.log(`socket.id`, socket.id);
     const eventEmiter = require("../lib/eventEmiter.js")(socket);
 
     socket.on("INIT_SESSION", user => {
