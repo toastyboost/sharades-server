@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,16 @@
     "url": "https://github.com/toastyboost/sharades-server/issues"
   },
   "engines": {
-    "node": "13.1.x"
+    "node": "10.x"
   },
   "homepage": "https://github.com/toastyboost/sharades-server#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "effector": "^20.9.1",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "now": "^16.7.0",
     "socket.io": "^2.3.0"
   }
