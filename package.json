@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/toastyboost/sharades-server#readme",
   "dependencies": {
-    "cors": "^2.8.5",
     "effector": "^20.9.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",

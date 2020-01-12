@@ -4,31 +4,15 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 
-const io = require("socket.io").listen(server);
+const io = require("socket.io")(server);
 
 const port = process.env.PORT || 8080;
-
-const bodyParser = require("body-parser");
-const cors = require("cors");
-
-// // setup express
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-// app.use(bodyParser.text({ type: "text/plain" }));
-// app.use(cors());
-
-// // setup socket.io
-// app.use(function(req, res, next) {
-//   res.io = io;
-//   next();
-// });
 
 const { addUser, deleteUser } = require("./model/users");
 const { addMessage } = require("./model/chat");
 
 io.on("connection", socket => {
   const socketID = socket.id;
-  console.log(`socket.id`, socket.id);
 
   const eventEmiter = require("./lib/eventEmiter.js")(socket);
 
