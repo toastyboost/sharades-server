@@ -8,17 +8,24 @@ const io = require("socket.io")(server);
 
 const port = process.env.PORT || 8080;
 
-const { addUser, deleteUser } = require("./model/users");
+const { addUser, deleteUser, emitOnline } = require("./model/users");
 const { addMessage } = require("./model/chat");
+const { startRound } = require("./model/game");
+
+// The Game
+
+startRound(99);
+
+// Socket
 
 io.on("connection", socket => {
   const socketID = socket.id;
 
-  const eventEmiter = require("./lib/eventEmiter.js")(socket);
+  require("./lib/event-emiter")(socket);
 
   socket.on("INIT_SESSION", user => {
     addUser({ id: socketID, name: user.name });
-    eventEmiter.emitOnline();
+    emitOnline();
   });
 
   socket.on("USER_MESSAGE", msg => {
@@ -30,9 +37,13 @@ io.on("connection", socket => {
     io.emit("USER_TYPING", socketID);
   });
 
+  socket.on("USER_DRAWNING", coordinates => {
+    io.emit("USER_DRAWNING", coordinates);
+  });
+
   socket.on("disconnect", () => {
     deleteUser(socketID);
-    eventEmiter.emitOnline();
+    emitOnline();
   });
 });
 
